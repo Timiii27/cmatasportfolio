@@ -34,7 +34,6 @@ export default function Portfolio() {
       className="relative flex flex-col justify-center items-center text-white min-h-screen p-8"
       id="portfolio"
     >
-      {/* Background */}
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
@@ -93,7 +92,7 @@ export default function Portfolio() {
             initial={{ opacity: 0, y: 50 }}
             animate={inViewClothing ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1 }}
-            className="grid grid-cols-12 gap-4 grid-auto-rows-[180px]"
+            className="grid grid-cols-4 md:grid-cols-12 gap-4 grid-auto-rows-[180px]"
             style={{ gridAutoRows: "minmax(180px, auto)" }}
           >
             {clothingItems.map((item, index) => (
@@ -101,10 +100,16 @@ export default function Portfolio() {
                 key={index}
                 className={`${
                   index % 5 === 0
-                    ? "col-span-6 row-span-2"
-                    : index % 4 === 0
-                    ? "col-span-4 row-span-1"
-                    : "col-span-3 row-span-1"
+                    ? "md:col-span-6 md:row-span-2"
+                    : index % 3 === 0
+                    ? "md:col-span-4 md:row-span-1"
+                    : "md:col-span-3 md:row-span-1"
+                }  ${
+                  index % 43 === 0
+                    ? "col-span-4 row-span-2"
+                    : index % 3 === 0
+                    ? "col-span-3 row-span-1"
+                    : "col-span-2 row-span-2"
                 }`}
               >
                 <CardComponent
@@ -130,7 +135,7 @@ export default function Portfolio() {
             initial={{ opacity: 0, y: 50 }}
             animate={inViewBags ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1 }}
-            className="grid grid-cols-12 gap-4 grid-auto-rows-[180px]"
+            className="grid grid-cols-4 md:grid-cols-12 gap-4 grid-auto-rows-[180px]"
             style={{ gridAutoRows: "minmax(180px, auto)" }}
           >
             {bagItems.map((item, index) => (
@@ -138,10 +143,16 @@ export default function Portfolio() {
                 key={index}
                 className={`${
                   index % 5 === 0
-                    ? "col-span-6 row-span-2"
+                    ? "md:col-span-6 md:row-span-2"
                     : index % 3 === 0
-                    ? "col-span-4 row-span-1"
-                    : "col-span-3 row-span-1"
+                    ? "md:col-span-4 md:row-span-1"
+                    : "md:col-span-3 md:row-span-1"
+                }  ${
+                  index % 4 === 0
+                    ? "col-span-4 row-span-2"
+                    : index % 3 === 0
+                    ? "col-span-3 row-span-1"
+                    : "col-span-2 row-span-2"
                 }`}
               >
                 <CardComponent

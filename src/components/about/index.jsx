@@ -54,8 +54,8 @@ export default function About() {
           transition={{ duration: 1 }}
           className="text-center md:text-left max-w-3xl"
         >
-          <div className="bg-[#2d884d] h-[20px] w-fit mb-6 flex items-end">
-            <span className="text-4xl md:text-5xl font-bold tracking-wide uppercase ">
+          <div className="bg-[#2d884d] h-[15px] md:h-[30px] w-full justify-center mb-6 flex items-end md:w-fit">
+            <span className="text-xl md:text-5xl font-bold tracking-wide uppercase ">
               Clara Manuela Matas
             </span>
           </div>
