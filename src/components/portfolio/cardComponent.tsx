@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+
 export interface CardComponentProps {
   item: {
     src: string;
@@ -7,32 +8,39 @@ export interface CardComponentProps {
     title: string;
     description: string;
   };
+  onClick?: () => void;
 }
-const CardComponent = ({ item }) => {
+
+const CardComponent = ({ item, onClick }: CardComponentProps) => {
   return (
     <motion.div
-      whileHover={{ scale: 1.05 }} // Slight zoom on hover
-      className="group relative w-96 h-[36rem] rounded-xl overflow-hidden cursor-pointer text-white shadow-lg transition-all duration-500 ease-out"
+      whileHover={{ scale: 1.05 }}
+      className="group relative rounded-3xl overflow-hidden cursor-pointer text-white shadow-2xl transition-transform duration-500 ease-out w-full h-full"
+      onClick={onClick}
     >
       <img
-        src={`/${item.src}`} // Image source path
+        src={item.src}
         alt={item.alt}
-        className="absolute w-full h-full object-fill opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute w-full h-full object-cover group-hover:opacity-80 transition-opacity duration-300"
       />
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90 group-hover:opacity-95"></div>
 
-      <div className="absolute inset-0 p-6 flex flex-col justify-end space-y-4">
-        {/* Title */}
-        <h2 className="absolute bottom-8 left-8 uppercase transition-all duration-300 group-hover:bottom-32 font-semibold">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 0.8, y: 0 }}
+        whileHover={{ scale: 1.1 }}
+        transition={{ duration: 0.5 }}
+        className="absolute -top-10 -right-16 w-40 h-40 bg-[#FF6F61] rounded-full blur-3xl opacity-50"
+      ></motion.div>
+
+      <div className="absolute inset-0 flex flex-col justify-between p-6">
+        <motion.h2 className="text-2xl font-semibold uppercase mt-4 tracking-wide group-hover:translate-y-[-50%] transition-transform duration-500">
           {item.title}
-        </h2>
-
-        {/* Description */}
-        <p className="absolute bottom-12 left-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 max-w-[80%]">
+        </motion.h2>
+        <motion.p className="text-md opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           {item.description}
-        </p>
+        </motion.p>
       </div>
     </motion.div>
   );
