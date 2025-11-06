@@ -7,15 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#2A2E45', // un tono oscuro que sugiere elegancia
-        secondary: '#A491D3', // tono suave lavanda
-        accent: '#E3D7FF', // un tono claro y sutil
-        light: '#F2F1F6', // color base claro para un fondo limpio
-        dark: '#1C1B29', // tono profundo y sofisticado
+        primary: '#0a0a0a',
+        secondary: '#1a1a1a',
+        accent: '#d4af37',
+        gold: '#d4af37',
+        bronze: '#8b7355',
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        serif: ['Cormorant Garamond', 'serif'],
       },
     },
   },

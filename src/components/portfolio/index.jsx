@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import CardComponent from "./cardComponent";
@@ -31,7 +30,7 @@ export default function Portfolio() {
   };
   return (
     <div
-      className="relative flex flex-col justify-center items-center text-white min-h-screen p-8"
+      className="relative flex flex-col justify-center items-center text-white min-h-screen p-8 py-32"
       id="portfolio"
     >
       <Modal
@@ -43,50 +42,54 @@ export default function Portfolio() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5 }}
-        className="absolute inset-0 bg-gradient-to-b from-[#111111] via-[#1a1a1a] to-[#333333] z-0"
+        className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f] via-[#1a1a1a] to-[#0a0a0a] z-0"
       ></motion.div>
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.3, scale: 1 }}
+        animate={{ opacity: 0.12, scale: 1 }}
         transition={{ duration: 1, delay: 0.3 }}
-        className="absolute w-48 h-48 md:w-72 md:h-72 bg-[#FF6F61] rounded-full blur-3xl -top-16 right-20"
+        className="absolute w-96 h-96 bg-[#8b7355] rounded-full blur-[120px] top-20 right-20"
       ></motion.div>
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.3, scale: 1 }}
+        animate={{ opacity: 0.12, scale: 1 }}
         transition={{ duration: 1, delay: 0.5 }}
-        className="absolute w-32 h-32 md:w-56 md:h-56 bg-[#2d884d] rounded-full blur-3xl -bottom-10 left-16 z-[400]"
+        className="absolute w-80 h-80 bg-[#d4af37] rounded-full blur-[120px] bottom-20 left-16"
       ></motion.div>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="text-center pb-10 z-10 w-full"
+        className="text-center pb-16 z-10 w-full space-y-6"
       >
-        <Typography
-          variant="h3"
-          component="h1"
-          className="text-4xl md:text-5xl font-bold uppercase tracking-wider"
-        >
-          My Portfolio
-        </Typography>
-        <p className="text-gray-400 mt-4 text-lg max-w-3xl mx-auto">
+        <div className="flex flex-col items-center gap-4">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: "100px" }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="h-[2px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"
+          ></motion.div>
+          <h1 className="font-serif text-5xl md:text-7xl font-light tracking-wide text-white/95">
+            Portfolio
+          </h1>
+          <p className="text-white/50 uppercase tracking-[0.3em] text-xs">
+            Selected Works
+          </p>
+        </div>
+        <p className="text-white/60 mt-6 text-lg max-w-2xl mx-auto font-light leading-relaxed">
           A curated collection of my latest work in fashion design, blending
           creativity, elegance, and craftsmanship.
         </p>
       </motion.div>
 
-      {/* Full-Width Two-Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 w-full px-8">
-        {/* Clothing Collection */}
-        <section ref={refClothing} className="space-y-8">
-          <Typography
-            variant="h4"
-            component="h2"
-            className="text-3xl font-semibold text-center pb-4"
-          >
-            Clothing Collection
-          </Typography>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 w-full max-w-[1600px]">
+        <section ref={refClothing} className="space-y-10">
+          <div className="text-center space-y-3">
+            <h2 className="font-serif text-4xl font-light tracking-wide text-white/90">
+              Clothing
+            </h2>
+            <div className="h-[1px] w-16 bg-[#d4af37] mx-auto"></div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -121,15 +124,13 @@ export default function Portfolio() {
           </motion.div>
         </section>
 
-        {/* Bag Collection */}
-        <section ref={refBags} className="space-y-8">
-          <Typography
-            variant="h4"
-            component="h2"
-            className="text-3xl font-semibold text-center pb-4"
-          >
-            Bag Collection
-          </Typography>
+        <section ref={refBags} className="space-y-10">
+          <div className="text-center space-y-3">
+            <h2 className="font-serif text-4xl font-light tracking-wide text-white/90">
+              Bags
+            </h2>
+            <div className="h-[1px] w-16 bg-[#d4af37] mx-auto"></div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 50 }}
