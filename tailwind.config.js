@@ -7,18 +7,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#0a0a0a',
-        secondary: '#1a1a1a',
-        accent: '#d4af37',
-        gold: '#d4af37',
-        bronze: '#8b7355',
+        background: '#ffffff',
+        surface: '#f8f8f8',
+        text: '#1a1a1a',
+        subtle: '#888888',
+        accent: '#d4af37', // Gold remains as an elegant accent
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         serif: ['Cormorant Garamond', 'serif'],
       },
+      fontSize: {
+        'huge': '12vw',
+      },
     },
   },
   plugins: [],
 }
-
