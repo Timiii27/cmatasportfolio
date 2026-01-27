@@ -15,36 +15,36 @@ export const translations: Record<Language, Record<string, string>> = {
     'nav.prev': 'Anterior',
 
     // Projects - Bombay Sapphire
-    'project.bombay.title': 'Bombay Sapphire',
-    'project.bombay.description': 'Rediseño de packaging para la icónica marca de ginebra, explorando nuevas formas y materiales que realzan la elegancia del producto mientras mantienen su identidad característica.',
+    'project.bombay.title': 'DISEÑO COPA BOMBAY SAPPHIRE',
+    'project.bombay.description': 'Diseño de una copa de la marca de ginebra "Bombay Sapphire" inspirándome en sus colores corporativos como su representativo azul zafiro, y añadiéndole una base en forma de corona, haciendo referencia a su logo.',
 
-    // Projects - Iris Van Herpen (Perfume)
-    'project.perfume.title': 'Iris Van Herpen',
-    'project.perfume.description': 'Diseño conceptual de perfume inspirado en el trabajo de la diseñadora de moda Iris Van Herpen, fusionando tecnología y naturaleza en un envase escultórico.',
+    // Projects - Perfume
+    'project.perfume.title': 'DISEÑO PERFUME',
+    'project.perfume.description': 'Diseño de un frasco de perfume de la marca Iris Van Herpen, siguiendo los estándares de la marca, inspirándome en la impresión 3D, y en la repetición de elementos.',
 
     // Projects - Tableware
-    'project.tableware.title': 'Tableware & Jewelry',
-    'project.tableware.description': 'Colección de vajilla y joyería que explora la intersección entre funcionalidad y arte, utilizando formas orgánicas y materiales nobles.',
+    'project.tableware.title': 'DISEÑO VAJILLA Y JOYAS',
+    'project.tableware.description': 'Diseño de un conjunto de vajilla y joyas, con elementos circulares inspirados en el mar, reduciéndolos a su estructura más básica.',
 
     // Projects - LUCCICA
-    'project.luccica.title': 'LUCCICA Editorial',
-    'project.luccica.description': 'Editorial de moda que captura la esencia de la marca LUCCICA, combinando fotografía artística con dirección de arte sofisticada.',
+    'project.luccica.title': 'DISEÑO EDITORIAL DE MODA',
+    'project.luccica.description': 'Diseño de una editorial de moda inspirada en Paco Rabanne, las lentejuelas y los brillos metalizados. Este trabajo incluye diseño de portada, diseño y confección de bolsos, y elección y edición de fotografías.',
 
     // Projects - Raíces
-    'project.raices.title': 'Colección Raíces',
-    'project.raices.description': 'Colección de moda que celebra las raíces culturales latinoamericanas, incorporando textiles tradicionales y técnicas artesanales en diseños contemporáneos.',
+    'project.raices.title': 'COLECCIÓN DE MODA RAÍCES',
+    'project.raices.description': 'Diseño de una colección de moda inspirada en 20 monumentos emblemáticos de la ciudad de Salamanca, y en el traje típico de Charra, reinterpretándolo desde una nueva visión.',
 
     // Projects - Mini Collection
-    'project.coleccion.title': 'Mini Colección',
-    'project.coleccion.description': 'Una colección cápsula que explora la versatilidad y la sostenibilidad en la moda, con piezas atemporales y multifuncionales.',
+    'project.coleccion.title': 'DISEÑO COLECCIÓN DE MODA',
+    'project.coleccion.description': 'Diseño de una mini-colección de moda, con telas estampadas con mis propios dibujos. La colección refleja la moda de hoy en día, con pieles sintéticas, y de estilo street-wear.',
 
     // Projects - Aura Café
-    'project.aura.title': 'Aura Café',
-    'project.aura.description': 'Identidad visual completa para una cafetería de especialidad, incluyendo logo, packaging, menú y aplicaciones de marca.',
+    'project.aura.title': 'DESARROLLO DE MARCA AURA',
+    'project.aura.description': 'Diseño de marca y espacio interior de una cafetería de especialidad, basando el diseño en el estilo japonés Wabi-Sabi, al ser este un estilo atemporal, y adaptable a todo tipo de personas.',
 
     // Projects - Diamantes
-    'project.diamantes.title': 'Diamond Posters',
-    'project.diamantes.description': 'Serie de carteles tipográficos que exploran la geometría del diamante como metáfora visual, jugando con la luz, las facetas y la precisión.',
+    'project.diamantes.title': 'DISEÑO DE CARTELERÍA',
+    'project.diamantes.description': 'Diseño gráfico de la cartelería de una exposición de una prestigiosa marca de diamantes, basado en el estilo de diseño Art-Deco, y en su relación con las joyas y las formas angulosas.',
 
     // Common
     'common.viewProject': 'Ver Proyecto',
@@ -66,36 +66,36 @@ export const translations: Record<Language, Record<string, string>> = {
     'nav.prev': 'Previous',
 
     // Projects - Bombay Sapphire
-    'project.bombay.title': 'Bombay Sapphire',
-    'project.bombay.description': 'Packaging redesign for the iconic gin brand, exploring new forms and materials that enhance the product\'s elegance while maintaining its characteristic identity.',
+    'project.bombay.title': 'BOMBAY SAPPHIRE GLASS DESIGN',
+    'project.bombay.description': 'Design of a glass for the gin brand "Bombay Sapphire" inspired by their corporate colors like their representative sapphire blue, adding a crown-shaped base referencing their logo.',
 
-    // Projects - Iris Van Herpen (Perfume)
-    'project.perfume.title': 'Iris Van Herpen',
-    'project.perfume.description': 'Conceptual perfume design inspired by fashion designer Iris Van Herpen\'s work, fusing technology and nature in a sculptural container.',
+    // Projects - Perfume
+    'project.perfume.title': 'PERFUME DESIGN',
+    'project.perfume.description': 'Design of a perfume bottle for the Iris Van Herpen brand, following the brand standards, inspired by 3D printing and the repetition of elements.',
 
     // Projects - Tableware
-    'project.tableware.title': 'Tableware & Jewelry',
-    'project.tableware.description': 'A tableware and jewelry collection that explores the intersection between functionality and art, using organic forms and noble materials.',
+    'project.tableware.title': 'TABLEWARE & JEWELRY DESIGN',
+    'project.tableware.description': 'Design of a tableware and jewelry set, with circular elements inspired by the sea, reducing them to their most basic structure.',
 
     // Projects - LUCCICA
-    'project.luccica.title': 'LUCCICA Editorial',
-    'project.luccica.description': 'Fashion editorial that captures the essence of the LUCCICA brand, combining artistic photography with sophisticated art direction.',
+    'project.luccica.title': 'FASHION EDITORIAL DESIGN',
+    'project.luccica.description': 'Design of a fashion editorial inspired by Paco Rabanne, sequins and metallic sparkles. This work includes cover design, bag design and creation, and photo selection and editing.',
 
     // Projects - Raíces
-    'project.raices.title': 'Raíces Collection',
-    'project.raices.description': 'A fashion collection celebrating Latin American cultural roots, incorporating traditional textiles and artisanal techniques into contemporary designs.',
+    'project.raices.title': 'RAÍCES FASHION COLLECTION',
+    'project.raices.description': 'Design of a fashion collection inspired by 20 emblematic monuments of Salamanca city, and the typical Charra costume, reinterpreting it from a new vision.',
 
     // Projects - Mini Collection
-    'project.coleccion.title': 'Mini Collection',
-    'project.coleccion.description': 'A capsule collection that explores versatility and sustainability in fashion, with timeless and multifunctional pieces.',
+    'project.coleccion.title': 'FASHION COLLECTION DESIGN',
+    'project.coleccion.description': 'Design of a mini fashion collection, with fabrics printed with my own drawings. The collection reflects today\'s fashion, with synthetic furs and street-wear style.',
 
     // Projects - Aura Café
-    'project.aura.title': 'Aura Café',
-    'project.aura.description': 'Complete visual identity for a specialty coffee shop, including logo, packaging, menu, and brand applications.',
+    'project.aura.title': 'AURA BRAND DEVELOPMENT',
+    'project.aura.description': 'Brand design and interior space for a specialty coffee shop, basing the design on the Japanese Wabi-Sabi style, being a timeless style adaptable to all types of people.',
 
     // Projects - Diamantes
-    'project.diamantes.title': 'Diamond Posters',
-    'project.diamantes.description': 'A series of typographic posters exploring diamond geometry as a visual metaphor, playing with light, facets, and precision.',
+    'project.diamantes.title': 'POSTER DESIGN',
+    'project.diamantes.description': 'Graphic design of exhibition posters for a prestigious diamond brand, based on Art-Deco design style and its relationship with jewelry and angular shapes.',
 
     // Common
     'common.viewProject': 'View Project',
