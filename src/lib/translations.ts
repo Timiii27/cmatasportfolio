@@ -39,7 +39,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "project.raices.description":
       "Diseño de una colección de moda inspirada en 20 monumentos emblemáticos de la ciudad de Salamanca, y en el traje típico de Charra, reinterpretándolo desde una nueva visión.",
 
-    // Projects - Mini Collection
+    // Projects
     "project.coleccion.title": "DISEÑO COLECCIÓN DE MODA",
     "project.coleccion.description":
       "Diseño de una mini-colección de moda, con telas estampadas con mis propios dibujos. La colección refleja la moda de hoy en día, con pieles sintéticas, y de estilo street-wear.",
