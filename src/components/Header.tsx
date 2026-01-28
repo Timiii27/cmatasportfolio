@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import ThemeToggle from './ui/ThemeToggle'
 import LanguageToggle from './ui/LanguageToggle'
 import { useLanguage } from '@/context/LanguageContext'
 
@@ -20,7 +19,7 @@ export default function Header({ showBackButton = false, backHref = '/' }: Heade
           {showBackButton && (
             <Link
               href={backHref}
-              className="flex items-center gap-2 text-sm font-light tracking-wide hover:opacity-70 transition-opacity duration-300"
+              className="flex items-center gap-2 text-sm font-light tracking-wide text-[#4a4a4a] hover:text-[#1a1a1a] transition-colors duration-300"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +42,6 @@ export default function Header({ showBackButton = false, backHref = '/' }: Heade
 
         <div className="flex items-center gap-4">
           <LanguageToggle />
-          <ThemeToggle />
         </div>
       </nav>
     </header>
