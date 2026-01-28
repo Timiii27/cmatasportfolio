@@ -13,19 +13,19 @@ export default function Header({ showBackButton = false, backHref = '/' }: Heade
   const { t } = useLanguage()
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4">
+    <header className="fixed top-0 left-0 right-0 z-[9999] px-4 md:px-8 py-6 pointer-events-none">
       <nav className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 pointer-events-auto">
           {showBackButton && (
             <Link
               href={backHref}
-              className="flex items-center gap-2 text-sm font-light tracking-wide text-[#4a4a4a] hover:text-[#1a1a1a] transition-colors duration-300"
+              className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium tracking-wide text-[#1a1a1a] bg-white/95 backdrop-blur-md rounded-full shadow-xl hover:bg-white hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth={1.5}
+                strokeWidth={2}
                 stroke="currentColor"
                 className="w-4 h-4"
               >
@@ -40,7 +40,7 @@ export default function Header({ showBackButton = false, backHref = '/' }: Heade
           )}
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center pointer-events-auto">
           <LanguageToggle />
         </div>
       </nav>

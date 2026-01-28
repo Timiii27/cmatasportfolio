@@ -3,16 +3,16 @@
 import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/context/LanguageContext'
-import { useTransition } from '@/context/TransitionContext'
 import { Category } from '@/lib/projects'
 import gsap from 'gsap'
 
 interface CategoryQuadrantProps {
   category: Category
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+  onNavigate?: (destinationColor: string, callback: () => void) => void
 }
 
-// Accent colors for each category
+// Accent colors for each category (for hover effects)
 const categoryColors: Record<string, string> = {
   web: '#6366f1',
   product: '#7AC5D8',
@@ -20,12 +20,18 @@ const categoryColors: Record<string, string> = {
   graphic: '#B87333',
 }
 
-export default function CategoryQuadrant({ category, position }: CategoryQuadrantProps) {
+// Background colors of the first project in each category (for transition)
+const categoryDestinationColors: Record<string, string> = {
+  web: '#1a1a1a',
+  product: '#1a3a4a',    // bombay
+  fashion: '#2a2a35',    // luccica
+  graphic: '#f5f0e6',    // aura
+}
+
+export default function CategoryQuadrant({ category, position, onNavigate }: CategoryQuadrantProps) {
   const { t } = useLanguage()
   const router = useRouter()
-  const { startTransition } = useTransition()
   const quadrantRef = useRef<HTMLDivElement>(null)
-  const bubbleRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const [isAnimating, setIsAnimating] = useState(false)
 
@@ -33,6 +39,7 @@ export default function CategoryQuadrant({ category, position }: CategoryQuadran
   const firstProject = category.projects[0]
   const href = hasProjects ? `/${category.slug}/${firstProject.slug}` : '#'
   const accentColor = categoryColors[category.slug] || '#ffffff'
+  const destinationColor = categoryDestinationColors[category.slug] || '#1a1a1a'
 
   const positionClasses = {
     'top-left': 'border-r border-b',
@@ -50,45 +57,22 @@ export default function CategoryQuadrant({ category, position }: CategoryQuadran
     e.preventDefault()
     setIsAnimating(true)
 
-    const rect = quadrantRef.current?.getBoundingClientRect()
-    const x = e.clientX - (rect?.left || 0)
-    const y = e.clientY - (rect?.top || 0)
-
-    // Set bubble position at click point
-    if (bubbleRef.current) {
-      bubbleRef.current.style.left = `${x}px`
-      bubbleRef.current.style.top = `${y}px`
-    }
-
-    const tl = gsap.timeline()
-
-    // Fade out content first
-    tl.to(contentRef.current, {
+    // Fade out all quadrant content
+    gsap.to(contentRef.current, {
       opacity: 0,
-      scale: 0.95,
+      scale: 0.9,
       duration: 0.3,
       ease: 'power2.in',
     })
 
-    // Bubble expansion to fill screen
-    tl.to(
-      bubbleRef.current,
-      {
-        scale: 100,
-        duration: 0.8,
-        ease: 'power2.inOut',
-      },
-      0.1
-    )
-
-    // After bubble fills screen, trigger global transition and navigate
-    tl.call(() => {
-      startTransition(accentColor)
-    }, [], 0.6)
-
-    tl.call(() => {
-      router.push(href)
-    }, [], 0.9)
+    // Trigger logo expansion with destination color
+    if (onNavigate) {
+      onNavigate(destinationColor, () => {
+        router.push(href)
+      })
+    } else {
+      setTimeout(() => router.push(href), 300)
+    }
   }
 
   const handleMouseEnter = () => {
@@ -143,16 +127,6 @@ export default function CategoryQuadrant({ category, position }: CategoryQuadran
         ${hasProjects ? 'cursor-pointer' : 'cursor-default'}
       `}
     >
-      {/* Expanding bubble on click */}
-      <div
-        ref={bubbleRef}
-        className="absolute w-8 h-8 rounded-full pointer-events-none z-50"
-        style={{
-          backgroundColor: accentColor,
-          transform: 'translate(-50%, -50%) scale(0)',
-        }}
-      />
-
       {/* Content */}
       <div ref={contentRef} className="text-center px-8 relative z-10">
         {/* Category number */}
