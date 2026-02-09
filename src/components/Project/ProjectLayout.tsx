@@ -198,14 +198,14 @@ function ProjectSection({
 
       <section
         id={project.slug}
-        className="project-section h-screen relative flex items-center justify-center overflow-hidden"
+        className="project-section min-h-screen lg:h-screen relative flex items-center justify-center overflow-hidden py-20 lg:py-0"
       >
-        <div className={`mx-auto flex w-full flex-col items-center gap-10 px-10 md:px-20 lg:px-32 ${textOnLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'} lg:justify-between lg:gap-24`}>
+        <div className={`mx-auto flex w-full flex-col items-center gap-6 px-6 md:px-20 lg:px-32 ${textOnLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'} lg:justify-between lg:gap-24`}>
 
           {/* Text Content */}
-          <div className="lg:w-[22%] lg:max-w-[280px] flex flex-col justify-center">
+          <div className="w-full text-center lg:text-left lg:w-[22%] lg:max-w-[280px] flex flex-col justify-center">
             <h2
-              className="project-title text-3xl md:text-4xl lg:text-5xl font-light leading-tight mb-8 tracking-tight"
+              className="project-title text-3xl md:text-4xl lg:text-5xl font-light leading-tight mb-4 lg:mb-8 tracking-tight"
               style={{ color: textColor }}
             >
               {title}
@@ -219,7 +219,7 @@ function ProjectSection({
           </div>
 
           {/* Images - Creative Layout based on project slug */}
-          <div className="lg:w-[55%]">
+          <div className="w-full lg:w-[55%]">
             <UniqueImageGrid images={images} title={title} projectSlug={project.slug} />
           </div>
         </div>
@@ -232,7 +232,7 @@ function ProjectSection({
 function UniqueImageGrid({ images, title, projectSlug }: { images: string[]; title: string; projectSlug: string }) {
   if (images.length === 0) return null
 
-  const baseGrid = "grid gap-2.5 md:gap-3 w-full mx-auto"
+  const baseGrid = "grid gap-1.5 md:gap-2.5 lg:gap-3 w-full mx-auto"
   const gridStyle = {
     aspectRatio: '1',
     maxHeight: '80vh',
