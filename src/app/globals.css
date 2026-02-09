@@ -129,6 +129,21 @@ html {
   }
 }
 
+/* Custom cursor */
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-ring {
+  will-change: transform;
+}
+
+.cursor-ring {
+  opacity: 0.5;
+}
+
 /* Swatch 3D effect */
 .swatch {
   border-radius: 16px;

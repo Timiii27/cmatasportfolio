@@ -59,6 +59,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "common.comingSoon": "Próximamente",
     "common.notFound": "Página no encontrada",
     "common.backHome": "Volver al inicio",
+    "footer.backToTop": "Volver arriba",
   },
   en: {
     // Categories
@@ -118,5 +119,6 @@ export const translations: Record<Language, Record<string, string>> = {
     "common.comingSoon": "Coming Soon",
     "common.notFound": "Page not found",
     "common.backHome": "Back to home",
+    "footer.backToTop": "Back to top",
   },
 };

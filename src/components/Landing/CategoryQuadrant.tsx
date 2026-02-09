@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { forwardRef, useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/context/LanguageContext'
 import { Category } from '@/lib/projects'
@@ -10,6 +10,7 @@ interface CategoryQuadrantProps {
   category: Category
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
   onNavigate?: (destinationColor: string, callback: () => void) => void
+  mousePosition?: { x: number; y: number }
 }
 
 // Accent colors for each category (for hover effects)
@@ -28,12 +29,15 @@ const categoryDestinationColors: Record<string, string> = {
   graphic: '#f5f0e6',    // aura
 }
 
-export default function CategoryQuadrant({ category, position, onNavigate }: CategoryQuadrantProps) {
+const CategoryQuadrant = forwardRef<HTMLDivElement, CategoryQuadrantProps>(
+  ({ category, position, onNavigate, mousePosition }, ref) => {
   const { t } = useLanguage()
   const router = useRouter()
   const quadrantRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const [isAnimating, setIsAnimating] = useState(false)
+  const quickXRef = useRef<ReturnType<typeof gsap.quickTo> | null>(null)
+  const quickYRef = useRef<ReturnType<typeof gsap.quickTo> | null>(null)
 
   const hasProjects = category.projects.length > 0
   const firstProject = category.projects[0]
@@ -47,6 +51,26 @@ export default function CategoryQuadrant({ category, position, onNavigate }: Cat
     'bottom-left': 'border-r',
     'bottom-right': '',
   }
+
+  // Set up quickTo for parallax
+  useEffect(() => {
+    if (!contentRef.current) return
+    if (window.matchMedia('(pointer: coarse)').matches) return
+
+    const el = contentRef.current
+    quickXRef.current = gsap.quickTo(el, 'x', { duration: 0.6, ease: 'power2.out' })
+    quickYRef.current = gsap.quickTo(el, 'y', { duration: 0.6, ease: 'power2.out' })
+
+    return () => { gsap.killTweensOf(el) }
+  }, [])
+
+  // Apply parallax on mouse position change
+  useEffect(() => {
+    if (!mousePosition || !quickXRef.current || !quickYRef.current) return
+    // Float content opposite to mouse direction
+    quickXRef.current(-mousePosition.x * 12)
+    quickYRef.current(-mousePosition.y * 12)
+  }, [mousePosition])
 
   const handleClick = (e: React.MouseEvent) => {
     if (!hasProjects || isAnimating) {
@@ -115,10 +139,17 @@ export default function CategoryQuadrant({ category, position, onNavigate }: Cat
 
   return (
     <div
-      ref={quadrantRef}
+      ref={(node) => {
+        (quadrantRef as React.MutableRefObject<HTMLDivElement | null>).current = node
+        if (typeof ref === 'function') ref(node)
+        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node
+      }}
+      data-cursor="expand"
+      data-position={position}
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      style={{ opacity: 0 }}
       className={`
         relative flex items-center justify-center overflow-hidden
         border-[var(--border-color)] bg-[var(--bg-primary)]
@@ -189,4 +220,8 @@ export default function CategoryQuadrant({ category, position, onNavigate }: Cat
       />
     </div>
   )
-}
+})
+
+CategoryQuadrant.displayName = 'CategoryQuadrant'
+
+export default CategoryQuadrant

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import { Project, projects } from '@/lib/projects'
 import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import ScrollProgress from '@/components/Project/ScrollProgress'
 import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -26,6 +28,14 @@ const projectBgColors: Record<string, string> = {
   diamantes: '#1a1a1a',
 }
 
+// Accent colors per category
+const categoryAccentColors: Record<string, string> = {
+  product: '#7AC5D8',
+  fashion: '#D4AF37',
+  graphic: '#B87333',
+  web: '#6366f1',
+}
+
 function isDarkColor(hex: string): boolean {
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)
@@ -43,6 +53,7 @@ export default function ProjectLayout({ project }: ProjectLayoutProps) {
 
   const categoryProjects = projects.filter(p => p.category === project.category)
   const firstBg = projectBgColors[categoryProjects[0]?.slug] || defaultBg
+  const accentColor = categoryAccentColors[project.category] || '#D4AF37'
 
   useEffect(() => {
     const tl = gsap.timeline()
@@ -113,6 +124,9 @@ export default function ProjectLayout({ project }: ProjectLayoutProps) {
         style={{ backgroundColor: firstBg }}
       />
 
+      {/* Scroll progress bar */}
+      <ScrollProgress accentColor={accentColor} />
+
       {/* Header always visible and fixed */}
       <Header showBackButton backHref="/" />
 
@@ -126,6 +140,8 @@ export default function ProjectLayout({ project }: ProjectLayoutProps) {
             prevProject={index > 0 ? categoryProjects[index - 1] : null}
           />
         ))}
+
+        <Footer />
       </div>
     </div>
   )
@@ -211,187 +227,198 @@ function ProjectSection({
   )
 }
 
-// Each project gets a unique layout
+// Each project gets a unique mosaic layout inside a square container (12×12 grid)
 function UniqueImageGrid({ images, title, projectSlug }: { images: string[]; title: string; projectSlug: string }) {
-  const count = images.length
-  const gap = 'gap-4 md:gap-5'
+  if (images.length === 0) return null
 
-  if (count === 0) return null
+  const baseGrid = "grid gap-3 md:gap-4"
+  const gridStyle = {
+    aspectRatio: '1',
+    gridTemplateColumns: 'repeat(12, 1fr)',
+    gridTemplateRows: 'repeat(12, 1fr)',
+  }
 
-  // Bombay - L-shape composition
+  // Bombay — 2 square images + color blocks (gold & blue diagonal)
   if (projectSlug === 'bombay') {
     return (
-      <div className={`grid grid-cols-4 grid-rows-4 ${gap}`} style={{ aspectRatio: '1' }}>
-        <div className="col-span-3 row-span-3">
+      <div className={baseGrid} style={gridStyle}>
+        <div style={{ gridColumn: '1 / 8', gridRow: '1 / 8' }}>
           <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
         </div>
-        <div className="row-span-2">
-          <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
-        </div>
-        <div className="row-span-2">
-          <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.2} index={2} />
-        </div>
-        <div className="col-span-2">
-          <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.3} index={3} />
+        <div className="rounded-2xl" style={{ gridColumn: '8 / 13', gridRow: '1 / 8', backgroundColor: '#D4AF37' }} />
+        <div className="rounded-2xl" style={{ gridColumn: '1 / 8', gridRow: '8 / 13', backgroundColor: '#7AC5D8' }} />
+        <div style={{ gridColumn: '8 / 13', gridRow: '8 / 13' }}>
+          <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.15} index={1} />
         </div>
       </div>
     )
   }
 
-  // Perfume - Vertical emphasis
+  // Perfume — 3 landscape images: hero + small top row, wide bottom strip
   if (projectSlug === 'perfume') {
     return (
-      <div className={`grid grid-cols-5 grid-rows-4 ${gap}`} style={{ aspectRatio: '5/4' }}>
-        <div className="col-span-2 row-span-4">
+      <div className={baseGrid} style={gridStyle}>
+        <div style={{ gridColumn: '1 / 8', gridRow: '1 / 6' }}>
           <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
         </div>
-        <div className="col-span-3 row-span-2">
+        <div style={{ gridColumn: '8 / 13', gridRow: '1 / 6' }}>
           <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
         </div>
-        <div className="col-span-2 row-span-2">
+        <div style={{ gridColumn: '1 / 13', gridRow: '6 / 13' }}>
           <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
-        </div>
-        <div className="row-span-2">
-          {images[3] && <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />}
         </div>
       </div>
     )
   }
 
-  // Tableware - Grid with accent
+  // Tableware — 5 images: L-shape hero + 2 stacked right + 2 bottom
   if (projectSlug === 'tableware') {
     return (
-      <div className={`grid grid-cols-3 grid-rows-3 ${gap}`} style={{ aspectRatio: '1' }}>
-        <div className="col-span-2 row-span-2">
+      <div className={baseGrid} style={gridStyle}>
+        <div style={{ gridColumn: '1 / 9', gridRow: '1 / 7' }}>
           <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
         </div>
-        <div className="row-span-3">
+        <div style={{ gridColumn: '9 / 13', gridRow: '1 / 4' }}>
           <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
         </div>
-        <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
-        <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />
+        <div style={{ gridColumn: '9 / 13', gridRow: '4 / 7' }}>
+          <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
+        </div>
+        <div style={{ gridColumn: '1 / 7', gridRow: '7 / 13' }}>
+          <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />
+        </div>
+        <div style={{ gridColumn: '7 / 13', gridRow: '7 / 13' }}>
+          <ProjectImage src={images[4]} alt={`${title} 5`} className="w-full h-full" delay={0.25} index={4} />
+        </div>
       </div>
     )
   }
 
-  // Luccica - Diagonal flow
+  // Luccica — 5 portrait images: L-shape (2 portraits left + 2 small + 1 big right)
   if (projectSlug === 'luccica') {
     return (
-      <div className={`grid grid-cols-6 grid-rows-4 ${gap}`} style={{ aspectRatio: '3/2' }}>
-        <div className="col-span-4 row-span-2">
+      <div className={baseGrid} style={gridStyle}>
+        <div style={{ gridColumn: '1 / 5', gridRow: '1 / 7' }}>
           <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
         </div>
-        <div className="col-span-2 row-span-3">
+        <div style={{ gridColumn: '1 / 5', gridRow: '7 / 13' }}>
           <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
         </div>
-        <div className="col-span-2 row-span-2">
+        <div style={{ gridColumn: '5 / 9', gridRow: '1 / 5' }}>
           <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
         </div>
-        <div className="col-span-2 row-span-2">
+        <div style={{ gridColumn: '9 / 13', gridRow: '1 / 5' }}>
           <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />
         </div>
-        <div className="col-span-2">
+        <div style={{ gridColumn: '5 / 13', gridRow: '5 / 13' }}>
           <ProjectImage src={images[4]} alt={`${title} 5`} className="w-full h-full" delay={0.25} index={4} />
         </div>
       </div>
     )
   }
 
-  // Raices - Asymmetric blocks
+  // Raices — 5 portrait images: 2 big top + 3 smaller bottom
   if (projectSlug === 'raices') {
     return (
-      <div className={`grid grid-cols-5 grid-rows-5 ${gap}`} style={{ aspectRatio: '1' }}>
-        <div className="col-span-3 row-span-3">
+      <div className={baseGrid} style={gridStyle}>
+        <div style={{ gridColumn: '1 / 7', gridRow: '1 / 9' }}>
           <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
         </div>
-        <div className="col-span-2 row-span-2">
+        <div style={{ gridColumn: '7 / 13', gridRow: '1 / 9' }}>
           <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
         </div>
-        <div className="col-span-2 row-span-3">
+        <div style={{ gridColumn: '1 / 5', gridRow: '9 / 13' }}>
           <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
         </div>
-        <div className="col-span-2 row-span-2">
+        <div style={{ gridColumn: '5 / 9', gridRow: '9 / 13' }}>
           <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />
         </div>
-        <div className="col-span-3 row-span-2">
+        <div style={{ gridColumn: '9 / 13', gridRow: '9 / 13' }}>
           <ProjectImage src={images[4]} alt={`${title} 5`} className="w-full h-full" delay={0.25} index={4} />
         </div>
       </div>
     )
   }
 
-  // Coleccion - Mosaic
+  // Coleccion — portraits left column + wide panoramics stacked right
   if (projectSlug === 'coleccion') {
     return (
-      <div className={`grid grid-cols-4 grid-rows-3 ${gap}`} style={{ aspectRatio: '4/3' }}>
-        <div className="col-span-2 row-span-2">
+      <div className={baseGrid} style={gridStyle}>
+        <div style={{ gridColumn: '1 / 5', gridRow: '1 / 7' }}>
           <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
         </div>
-        <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
-        <div className="row-span-2">
+        <div style={{ gridColumn: '1 / 5', gridRow: '7 / 13' }}>
+          <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
+        </div>
+        <div style={{ gridColumn: '5 / 13', gridRow: '1 / 5' }}>
           <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
         </div>
-        <div className="row-span-2">
+        <div style={{ gridColumn: '5 / 13', gridRow: '5 / 9' }}>
           <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />
         </div>
-        <div className="col-span-2">
+        <div style={{ gridColumn: '5 / 13', gridRow: '9 / 13' }}>
           <ProjectImage src={images[4]} alt={`${title} 5`} className="w-full h-full" delay={0.25} index={4} />
         </div>
       </div>
     )
   }
 
-  // Aura - T-shape
+  // Aura — banner+square top, landscape+portrait bottom (full coverage)
   if (projectSlug === 'aura') {
     return (
-      <div className={`grid grid-cols-3 grid-rows-4 ${gap}`} style={{ aspectRatio: '3/4' }}>
-        <div className="col-span-3 row-span-2">
+      <div className={baseGrid} style={gridStyle}>
+        <div style={{ gridColumn: '1 / 9', gridRow: '1 / 5' }}>
           <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
         </div>
-        <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
-        <div className="row-span-2">
-          <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
-        </div>
-        <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />
-      </div>
-    )
-  }
-
-  // Diamantes - Stepped layout
-  if (projectSlug === 'diamantes') {
-    return (
-      <div className={`grid grid-cols-5 grid-rows-4 ${gap}`} style={{ aspectRatio: '5/4' }}>
-        <div className="col-span-3 row-span-2">
-          <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
-        </div>
-        <div className="col-span-2 row-span-3">
+        <div style={{ gridColumn: '9 / 13', gridRow: '1 / 5' }}>
           <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
         </div>
-        <div className="col-span-2 row-span-2">
+        <div style={{ gridColumn: '1 / 9', gridRow: '5 / 13' }}>
           <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
         </div>
-        <div className="col-span-3">
+        <div style={{ gridColumn: '9 / 13', gridRow: '5 / 13' }}>
           <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />
         </div>
       </div>
     )
   }
 
-  // Default fallback
-  return (
-    <div className={`grid grid-cols-3 grid-rows-3 ${gap}`} style={{ aspectRatio: '1' }}>
-      <div className="col-span-2 row-span-2">
-        <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
+  // Diamantes — asymmetric: big hero + 2 side panels + wide panoramic strip
+  if (projectSlug === 'diamantes') {
+    return (
+      <div className={baseGrid} style={gridStyle}>
+        <div style={{ gridColumn: '1 / 8', gridRow: '1 / 8' }}>
+          <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
+        </div>
+        <div style={{ gridColumn: '8 / 13', gridRow: '1 / 5' }}>
+          <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
+        </div>
+        <div style={{ gridColumn: '8 / 13', gridRow: '5 / 8' }}>
+          <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.15} index={3} />
+        </div>
+        <div style={{ gridColumn: '1 / 13', gridRow: '8 / 13' }}>
+          <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.2} index={2} />
+        </div>
       </div>
-      {images[1] && <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />}
-      {images[2] && <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />}
-      {images[3] && <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />}
-      {images[4] && <ProjectImage src={images[4]} alt={`${title} 5`} className="w-full h-full" delay={0.25} index={4} />}
+    )
+  }
+
+  // Default fallback — 2×2 square grid
+  return (
+    <div className={baseGrid} style={gridStyle}>
+      {images.slice(0, 4).map((img, i) => (
+        <div key={i} style={{
+          gridColumn: i % 2 === 0 ? '1 / 7' : '7 / 13',
+          gridRow: i < 2 ? '1 / 7' : '7 / 13',
+        }}>
+          <ProjectImage src={img} alt={`${title} ${i + 1}`} className="w-full h-full" delay={i * 0.1} index={i} />
+        </div>
+      ))}
     </div>
   )
 }
 
-// Creative reveal animations for images
+// Creative reveal animations for images with 3D tilt on hover
 function ProjectImage({
   src,
   alt,
@@ -407,8 +434,14 @@ function ProjectImage({
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
+  const reflectionRef = useRef<HTMLDivElement>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
+  const isDesktop = useRef(false)
+
+  useEffect(() => {
+    isDesktop.current = typeof window !== 'undefined' && window.matchMedia('(pointer: fine)').matches
+  }, [])
 
   useEffect(() => {
     if (!containerRef.current || !imageRef.current) return
@@ -446,10 +479,55 @@ function ProjectImage({
     return () => ctx.revert()
   }, [delay])
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDesktop.current || !containerRef.current) return
+
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+
+    gsap.to(containerRef.current, {
+      rotateY: x * 8,
+      rotateX: -y * 8,
+      duration: 0.3,
+      ease: 'power2.out',
+    })
+
+    // Move light reflection
+    if (reflectionRef.current) {
+      reflectionRef.current.style.background = `radial-gradient(circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, rgba(255,255,255,0.15) 0%, transparent 60%)`
+      reflectionRef.current.style.opacity = '1'
+    }
+  }
+
+  const handleMouseEnter = () => {
+    if (!isDesktop.current) return
+  }
+
+  const handleMouseLeave = () => {
+    if (!isDesktop.current || !containerRef.current) return
+
+    gsap.to(containerRef.current, {
+      rotateY: 0,
+      rotateX: 0,
+      duration: 0.5,
+      ease: 'power2.out',
+    })
+
+    if (reflectionRef.current) {
+      reflectionRef.current.style.opacity = '0'
+    }
+  }
+
   return (
     <div
       ref={containerRef}
+      data-cursor="expand"
       className={`relative overflow-hidden rounded-2xl ${className}`}
+      style={{ perspective: '600px' }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div ref={imageRef} className="absolute inset-0">
         {hasError ? (
@@ -473,6 +551,13 @@ function ProjectImage({
           </>
         )}
       </div>
+
+      {/* Light reflection overlay */}
+      <div
+        ref={reflectionRef}
+        className="absolute inset-0 pointer-events-none z-10 transition-opacity duration-300"
+        style={{ opacity: 0 }}
+      />
     </div>
   )
 }
