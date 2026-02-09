@@ -52,7 +52,7 @@ export default function ProjectLayout({ project }: ProjectLayoutProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
 
   const categoryProjects = projects.filter(p => p.category === project.category)
-  const firstBg = projectBgColors[categoryProjects[0]?.slug] || defaultBg
+  const firstBg = '#f5f5f5'
   const accentColor = categoryAccentColors[project.category] || '#D4AF37'
 
   useEffect(() => {
@@ -163,12 +163,13 @@ function ProjectSection({
   const description = t(project.descriptionKey)
   const images = project.images.slice(0, 5)
 
-  const bgColor = projectBgColors[project.slug] || defaultBg
-  const prevBgColor = prevProject ? (projectBgColors[prevProject.slug] || defaultBg) : bgColor
+  // Alternate between black and white
+  const bgColor = index % 2 === 0 ? '#f5f5f5' : '#0a0a0a'
+  const prevBgColor = prevProject ? (index - 1) % 2 === 0 ? '#f5f5f5' : '#0a0a0a' : bgColor
 
-  const isDark = isDarkColor(bgColor)
+  const isDark = index % 2 !== 0
   const textColor = isDark ? '#ffffff' : '#1a1a1a'
-  const mutedColor = isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)'
+  const mutedColor = textColor
 
   const textOnLeft = index % 2 === 0
 
@@ -176,7 +177,7 @@ function ProjectSection({
     <div style={{ backgroundColor: bgColor }}>
       {/* Wave transition with two crests */}
       {index > 0 && (
-        <div className="relative h-32 md:h-44 -mt-px" style={{ backgroundColor: prevBgColor }}>
+        <div className="relative h-20 md:h-28 -mt-px" style={{ backgroundColor: prevBgColor }}>
           <svg
             className="absolute bottom-0 left-0 w-full"
             viewBox="0 0 1440 120"
@@ -197,20 +198,20 @@ function ProjectSection({
 
       <section
         id={project.slug}
-        className="project-section min-h-screen relative flex items-center py-16 md:py-20"
+        className="project-section h-screen relative flex items-center justify-center overflow-hidden"
       >
-        <div className={`container mx-auto px-6 md:px-12 lg:px-20 flex flex-col ${textOnLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-20 items-center`}>
+        <div className={`mx-auto flex w-full flex-col items-center gap-10 px-10 md:px-20 lg:px-32 ${textOnLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'} lg:justify-between lg:gap-24`}>
 
           {/* Text Content */}
-          <div className="lg:w-[30%]">
+          <div className="lg:w-[22%] lg:max-w-[280px] flex flex-col justify-center">
             <h2
-              className="project-title text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-6 tracking-tight"
+              className="project-title text-3xl md:text-4xl lg:text-5xl font-light leading-tight mb-8 tracking-tight"
               style={{ color: textColor }}
             >
               {title}
             </h2>
             <p
-              className="project-desc text-base md:text-lg leading-relaxed font-light"
+              className="project-desc text-sm md:text-base leading-relaxed font-light"
               style={{ color: mutedColor }}
             >
               {description}
@@ -218,7 +219,7 @@ function ProjectSection({
           </div>
 
           {/* Images - Creative Layout based on project slug */}
-          <div className="lg:w-[70%]">
+          <div className="lg:w-[55%]">
             <UniqueImageGrid images={images} title={title} projectSlug={project.slug} />
           </div>
         </div>
@@ -231,41 +232,42 @@ function ProjectSection({
 function UniqueImageGrid({ images, title, projectSlug }: { images: string[]; title: string; projectSlug: string }) {
   if (images.length === 0) return null
 
-  const baseGrid = "grid gap-3 md:gap-4"
+  const baseGrid = "grid gap-2.5 md:gap-3 w-full mx-auto"
   const gridStyle = {
     aspectRatio: '1',
+    maxHeight: '80vh',
     gridTemplateColumns: 'repeat(12, 1fr)',
     gridTemplateRows: 'repeat(12, 1fr)',
   }
 
-  // Bombay — 2 square images + color blocks (gold & blue diagonal)
+  // Bombay — copa arriba full width, abajo botella vertical + 2 colores
   if (projectSlug === 'bombay') {
     return (
       <div className={baseGrid} style={gridStyle}>
-        <div style={{ gridColumn: '1 / 8', gridRow: '1 / 8' }}>
-          <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
+        <div style={{ gridColumn: '1 / 13', gridRow: '1 / 7' }}>
+          <ProjectImage src={images[1]} alt={title} className="w-full h-full" index={1} fit="contain" />
         </div>
-        <div className="rounded-2xl" style={{ gridColumn: '8 / 13', gridRow: '1 / 8', backgroundColor: '#D4AF37' }} />
-        <div className="rounded-2xl" style={{ gridColumn: '1 / 8', gridRow: '8 / 13', backgroundColor: '#7AC5D8' }} />
-        <div style={{ gridColumn: '8 / 13', gridRow: '8 / 13' }}>
-          <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.15} index={1} />
+        <div style={{ gridColumn: '1 / 5', gridRow: '7 / 13' }}>
+          <ProjectImage src={images[0]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={0} />
         </div>
+        <div className="rounded-[2rem]" style={{ gridColumn: '5 / 9', gridRow: '7 / 13', backgroundColor: '#7AC5D8' }} />
+        <div className="rounded-[2rem]" style={{ gridColumn: '9 / 13', gridRow: '7 / 13', backgroundColor: '#D4AF37' }} />
       </div>
     )
   }
 
-  // Perfume — 3 landscape images: hero + small top row, wide bottom strip
+  // Perfume — imagen 2 vertical derecha, imagen 1 arriba-izq (pequeña), imagen 3 abajo-izq (grande)
   if (projectSlug === 'perfume') {
     return (
       <div className={baseGrid} style={gridStyle}>
-        <div style={{ gridColumn: '1 / 8', gridRow: '1 / 6' }}>
-          <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
+        <div style={{ gridColumn: '1 / 7', gridRow: '1 / 6' }}>
+          <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" index={2} />
         </div>
-        <div style={{ gridColumn: '8 / 13', gridRow: '1 / 6' }}>
-          <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
+        <div style={{ gridColumn: '1 / 7', gridRow: '6 / 13' }}>
+          <ProjectImage src={images[0]} alt={title} className="w-full h-full" delay={0.1} index={0} />
         </div>
-        <div style={{ gridColumn: '1 / 13', gridRow: '6 / 13' }}>
-          <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
+        <div style={{ gridColumn: '7 / 13', gridRow: '1 / 13' }}>
+          <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.15} index={1} />
         </div>
       </div>
     )
@@ -294,24 +296,21 @@ function UniqueImageGrid({ images, title, projectSlug }: { images: string[]; tit
     )
   }
 
-  // Luccica — 5 portrait images: L-shape (2 portraits left + 2 small + 1 big right)
+  // Luccica — imagen 4 vertical derecha, resto a la izquierda
   if (projectSlug === 'luccica') {
     return (
       <div className={baseGrid} style={gridStyle}>
-        <div style={{ gridColumn: '1 / 5', gridRow: '1 / 7' }}>
+        <div style={{ gridColumn: '1 / 5', gridRow: '1 / 5' }}>
           <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
         </div>
-        <div style={{ gridColumn: '1 / 5', gridRow: '7 / 13' }}>
+        <div style={{ gridColumn: '1 / 5', gridRow: '5 / 9' }}>
           <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
         </div>
-        <div style={{ gridColumn: '5 / 9', gridRow: '1 / 5' }}>
+        <div style={{ gridColumn: '1 / 5', gridRow: '9 / 13' }}>
           <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
         </div>
-        <div style={{ gridColumn: '9 / 13', gridRow: '1 / 5' }}>
+        <div style={{ gridColumn: '5 / 13', gridRow: '1 / 13' }}>
           <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />
-        </div>
-        <div style={{ gridColumn: '5 / 13', gridRow: '5 / 13' }}>
-          <ProjectImage src={images[4]} alt={`${title} 5`} className="w-full h-full" delay={0.25} index={4} />
         </div>
       </div>
     )
@@ -367,37 +366,34 @@ function UniqueImageGrid({ images, title, projectSlug }: { images: string[]; tit
   if (projectSlug === 'aura') {
     return (
       <div className={baseGrid} style={gridStyle}>
-        <div style={{ gridColumn: '1 / 9', gridRow: '1 / 5' }}>
+        <div style={{ gridColumn: '1 / 6', gridRow: '1 / 4' }}>
           <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
         </div>
-        <div style={{ gridColumn: '9 / 13', gridRow: '1 / 5' }}>
+        <div style={{ gridColumn: '6 / 13', gridRow: '1 / 8' }}>
           <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
         </div>
-        <div style={{ gridColumn: '1 / 9', gridRow: '5 / 13' }}>
-          <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.15} index={2} />
+        <div style={{ gridColumn: '1 / 6', gridRow: '4 / 13' }}>
+          <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.15} index={3} />
         </div>
-        <div style={{ gridColumn: '9 / 13', gridRow: '5 / 13' }}>
-          <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.2} index={3} />
+        <div style={{ gridColumn: '6 / 13', gridRow: '8 / 13' }}>
+          <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.2} index={2} />
         </div>
       </div>
     )
   }
 
-  // Diamantes — asymmetric: big hero + 2 side panels + wide panoramic strip
+  // Diamantes — 1 arriba, 2 en medio, 1 abajo
   if (projectSlug === 'diamantes') {
     return (
       <div className={baseGrid} style={gridStyle}>
-        <div style={{ gridColumn: '1 / 8', gridRow: '1 / 8' }}>
-          <ProjectImage src={images[0]} alt={title} className="w-full h-full" index={0} />
+        <div style={{ gridColumn: '1 / 13', gridRow: '1 / 7' }}>
+          <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" index={1} />
         </div>
-        <div style={{ gridColumn: '8 / 13', gridRow: '1 / 5' }}>
-          <ProjectImage src={images[1]} alt={`${title} 2`} className="w-full h-full" delay={0.1} index={1} />
+        <div style={{ gridColumn: '1 / 8', gridRow: '7 / 13' }}>
+          <ProjectImage src={images[0]} alt={title} className="w-full h-full" delay={0.1} index={0} />
         </div>
-        <div style={{ gridColumn: '8 / 13', gridRow: '5 / 8' }}>
+        <div style={{ gridColumn: '8 / 13', gridRow: '7 / 13' }}>
           <ProjectImage src={images[3]} alt={`${title} 4`} className="w-full h-full" delay={0.15} index={3} />
-        </div>
-        <div style={{ gridColumn: '1 / 13', gridRow: '8 / 13' }}>
-          <ProjectImage src={images[2]} alt={`${title} 3`} className="w-full h-full" delay={0.2} index={2} />
         </div>
       </div>
     )
@@ -425,12 +421,14 @@ function ProjectImage({
   className = '',
   delay = 0,
   index = 0,
+  fit = 'cover',
 }: {
   src: string
   alt: string
   className?: string
   delay?: number
   index?: number
+  fit?: 'cover' | 'contain'
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
@@ -522,8 +520,8 @@ function ProjectImage({
   return (
     <div
       ref={containerRef}
-      data-cursor="expand"
-      className={`relative overflow-hidden rounded-2xl ${className}`}
+      data-cursor="default"
+      className={`relative overflow-hidden rounded-[2rem] ${className}`}
       style={{ perspective: '600px' }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
@@ -544,7 +542,7 @@ function ProjectImage({
               alt={alt}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className={`object-cover transition-transform duration-700 hover:scale-105 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+              className={`${fit === 'contain' ? 'object-contain' : 'object-cover'} transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
               onLoad={() => setIsLoading(false)}
               onError={() => { setIsLoading(false); setHasError(true) }}
             />
